@@ -1,0 +1,9 @@
+FROM unit:1.31.1-python3.11
+
+# port used by the listener in config.json
+EXPOSE 8081
+
+# application setup
+ADD config-python.json /docker-entrypoint.d/config.json
+
+VOLUME [ "/www/python_app" ]

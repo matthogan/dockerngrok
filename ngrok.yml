@@ -1,0 +1,6 @@
+version: 1
+web_addr: 0.0.0.0:4040
+update_check: false
+log: stdout
+log_level: INFO
+region: eu

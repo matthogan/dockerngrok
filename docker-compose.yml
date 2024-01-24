@@ -1,0 +1,35 @@
+version: "3"
+
+# To pass the environment variable in the docker-compose command, use the following syntax:
+# docker-compose --env-file .env up
+
+# To see the logs of each service, you can use the following commands:
+# For pyapp service:
+# docker-compose logs pyapp
+# For ngrok service:
+# docker-compose logs ngrok
+
+services:
+  pyapp:
+    image: codejago/pyapp1:latest
+    volumes:
+      - /home/matto/www/python1:/www/python_app
+    expose:
+      - 8081
+
+  ngrok:
+    image: codejago/ngrok:latest
+    ports:
+      - 4040:4040
+    environment:
+      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
+    entrypoint:
+      - /bin/sh
+      - -c
+    command:
+      - "ngrok http --config=/ngrok.yml pyapp:8081"
+    # To enable communication from ngrok to pyapp, you can use the service name as the hostname in ngrok's configuration.
+    # For example, in your pyapp code, you can use "pyapp" as the hostname to connect to the pyapp service.
+    # ngrok will be able to route to the pyapp service using the service name as the hostname.
+    depends_on:
+      - pyapp
